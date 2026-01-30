@@ -5,7 +5,7 @@ import {
   TextInput,
   Button,
   KeyboardAvoidingView,
-  ScrollView,
+  FlatList,
   Platform
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -28,13 +28,15 @@ export default function App() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <Text style={{ fontSize: 30, textAlign: "center" }}>TO-DO List</Text>
-          <View style={{ flex: 1}}>
-            {tasks.map((t, index) => (
-              <Text key={index} style={{ fontSize: 20, padding: 10 }}>
-                {t}
-              </Text>
-            ))}
-          </View>
+          <FlatList 
+            data={tasks}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={(item, index) => (
+              <View style={styles.taskContainer}>
+                <Text style={styles.task}>* {item.item}</Text>
+              </View>
+            )}
+          />
 
           <TextInput
             style={styles.input}
@@ -67,5 +69,20 @@ const styles = StyleSheet.create({
     height: 50, 
     padding: 10,
     borderRadius: 8,
+  },
+  taskContainer: {
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderBottomWidth: 0, 
+    borderColor: "#d3d3d3",
+    width: "100%",
+    padding: 10,
+    marginVertical: 4,
+    marginBottom: 0,
+    borderRadius: 8,
+  },
+  task: {
+    alignSelf: "flex-start",
+    fontSize: 24,
   }
 });
