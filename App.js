@@ -1,11 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
+import { use, useState } from 'react';
 
 export default function App() {
+  const [ tasks, setTasks ] = useState([]);
+  const [ task, setTask ] = useState(''); 
+
+  const addTask = () => {
+    setTasks([...tasks, task]);
+    setTask('');
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1, paddingTop: 50 }}>
+      <Text style={{ fontSize: 30, textAlign: 'center' }}>TO-DO List</Text>
+      <ScrollView>
+        {tasks.map((t, index) => (
+          <Text key={index} style={{ fontSize: 20, padding: 10 }}>{t}</Text>
+        ))}
+      </ScrollView>
+
+      <TextInput 
+        placeholder='New Task'
+        value={task}
+        onChangeText={setTask}
+        style={{ borderWidth: 1, margin: 20, padding: 10}}
+      />
+      <Button title="Add" onPress={addTask} />
     </View>
   );
 }
